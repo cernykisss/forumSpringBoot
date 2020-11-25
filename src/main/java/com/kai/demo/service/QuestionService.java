@@ -21,20 +21,6 @@ public class QuestionService {
     @Autowired
     private QuestionMapper questionMapper;
 
-//    public List<QuestionDTO> list() {
-//        List<Question> questions = questionMapper.list();
-//        List<QuestionDTO> questionDTOS = new ArrayList<>();
-//        for (Question question : questions) {
-//            User user = userMapper.findById(question.getCreator());
-//            QuestionDTO questionDTO = new QuestionDTO();
-//            //快速拷贝属性值
-//            BeanUtils.copyProperties(question, questionDTO);
-//            questionDTO.setUser(user);
-//            questionDTOS.add(questionDTO);
-//        }
-//        return questionDTOS;
-//    }
-
     public PaginationDTO list(Integer page, Integer size) {
         List<Question> questions = questionMapper.list((page - 1) * size, size);
         List<QuestionDTO> questionDTOS = new ArrayList<>();
