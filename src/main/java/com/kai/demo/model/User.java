@@ -1,4 +1,4 @@
-package com.kai.demo.dto;
+package com.kai.demo.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,10 +7,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GithubUser {
-
+public class User {
+    private Integer id;
+    private String accountId;
     private String name;
-    private long id;
-    private String bio;
+    private String token;
+    private Long gmtCreate;
+    private Long gmtModified;
     private String avatarUrl;
 }
