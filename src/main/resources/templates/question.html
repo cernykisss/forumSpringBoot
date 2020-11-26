@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${question.title}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="/css/forum.css">
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+
+</head>
+<body>
+<div th:insert="navigation :: nav"></div>
+<hr color="blue">
+<div class="container-fluid main">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <hr>
+            <h3><span th:text="${question.title}"></span></h3>
+            <span class="text-desc">
+                作者:<span th:text="${question.user} ne null? ${question.user.getName()}: '匿名'"></span>
+                阅读数:<span th:text="${question.viewCount}"></span>
+                发布时间:<span th:text="${#dates.format(question.getGmtCreate(), 'dd-MM-yyyy')}"></span>
+            </span>
+            <hr>
+
+            <hr>
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h4>发起人</h4>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h4>相关问题</h4>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

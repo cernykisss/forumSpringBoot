@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Forum</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="css/bootstrap.min.css"/>
     <link rel="stylesheet" href="css/bootstrap-theme.min.css"/>
     <link rel="stylesheet" href="css/forum.css">
@@ -27,11 +27,14 @@
                     </a>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading" th:text="${question.title}"></h4>
-                    <span th:text="${question.description}"></span><br>
+                    <h4 class="media-heading">
+                        <a th:href="@{'/question/'+${question.id}}" th:text="${question.title}"></a>
+                    </h4>
+                    <span th:text=" ${question.description}"></span><br>
                     <span class="text-desc"><span th:text="${question.commentCount}"></span>个回复
                                             <span th:text="${question.viewCount}"></span>次浏览
-                                            创建于<span th:text="${#dates.format(question.getGmtCreate(), 'dd-MM-yyyy')}"></span>
+                                            创建于<span
+                                th:text="${#dates.format(question.getGmtCreate(), 'dd-MM-yyyy')}"></span>
                     </span>
                 </div>
             </div>
@@ -64,7 +67,7 @@
             </nav>
             <hr>
         </div>
-        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" >
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
             <hr>
             <h3>热门话题</h3>
         </div>

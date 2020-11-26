@@ -49,7 +49,7 @@ public class QuestionService {
         Integer totalCount = questionMapper.countByUserId(userId);
         paginationDTO.setPagination(totalCount, page, size);
         List<QuestionDTO> questionDTOS = new ArrayList<>();
-        for (Question question: questions) {
+        for (Question question : questions) {
             User user = userMapper.findById(userId);
             QuestionDTO questionDTO = new QuestionDTO();
             BeanUtils.copyProperties(question, questionDTO);
@@ -58,5 +58,12 @@ public class QuestionService {
         }
         paginationDTO.setQuestions(questionDTOS);
         return paginationDTO;
+    }
+
+    public QuestionDTO getById(Integer id) {
+        Question question = questionMapper.findById(id);
+        QuestionDTO questionDTO = new QuestionDTO();
+        BeanUtils.copyProperties(question, questionDTO);
+        return questionDTO;
     }
 }
