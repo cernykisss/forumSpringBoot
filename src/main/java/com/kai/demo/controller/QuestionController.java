@@ -1,8 +1,6 @@
 package com.kai.demo.controller;
 
 import com.kai.demo.dto.QuestionDTO;
-import com.kai.demo.mapper.QuestionMapper;
-import com.kai.demo.model.Question;
 import com.kai.demo.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

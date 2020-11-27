@@ -1,11 +1,11 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Forum</title>
+    <title>论坛</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="css/bootstrap.min.css"/>
     <link rel="stylesheet" href="css/bootstrap-theme.min.css"/>
-    <link rel="stylesheet" href="css/forum.css">
+    <link rel="stylesheet" href="css/forumV1.css">
     <script src="js/jquery-3.4.1.min.js"></script>
     <script src="js/bootstrap.min.js" type="application/javascript"></script>
 
@@ -20,10 +20,9 @@
             <h2><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> 发现</h2>
             <hr>
             <div class="media" th:each="question : ${pagination.questions}">
-                <div class="media-left media-middle">
+                <div class="media-left">
                     <a href="#">
-                        <img class="media-object" style="border-radius: 50px"
-                             src="https://avatars2.githubusercontent.com/u/66839484?s=60&v=4">
+                        <img class="media-object avatar-img" th:src="${question.user.avatarUrl}">
                     </a>
                 </div>
                 <div class="media-body">
@@ -31,10 +30,10 @@
                         <a th:href="@{'/question/'+${question.id}}" th:text="${question.title}"></a>
                     </h4>
                     <span th:text=" ${question.description}"></span><br>
-                    <span class="text-desc"><span th:text="${question.commentCount}"></span>个回复
-                                            <span th:text="${question.viewCount}"></span>次浏览
-                                            创建于<span
-                                th:text="${#dates.format(question.getGmtCreate(), 'dd-MM-yyyy')}"></span>
+                    <span class="text-desc">
+                        <span th:text="${question.commentCount}"></span>个回复
+                        <span th:text="${question.viewCount}"></span>次浏览
+                        创建于<span th:text="${#dates.format(question.getGmtCreate(), 'dd-MM-yyyy')}"></span>
                     </span>
                 </div>
             </div>
@@ -60,7 +59,7 @@
                     </li>
                     <li th:if="${pagination.showEndPage}">
                         <a th:href="@{/(page=${pagination.totalPage})}">
-                            <span aria-hidden="true"> &gt;&gt;</span>
+                            <span aria-hidden="true">&gt;&gt;</span>
                         </a>
                     </li>
                 </ul>

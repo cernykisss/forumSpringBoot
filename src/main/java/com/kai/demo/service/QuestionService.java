@@ -29,6 +29,7 @@ public class QuestionService {
         if (page < 1) page = 1;
         if (page > paginationDTO.getTotalPage()) page = paginationDTO.getTotalPage();
 
+        if (page == 0) page = 1;
         List<Question> questions = questionMapper.list((page - 1) * size, size);
         List<QuestionDTO> questionDTOS = new ArrayList<>();
 
@@ -64,6 +65,8 @@ public class QuestionService {
         Question question = questionMapper.findById(id);
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question, questionDTO);
+        User creator = userMapper.findById(question.getCreator());
+        questionDTO.setUser(creator);
         return questionDTO;
     }
 }
