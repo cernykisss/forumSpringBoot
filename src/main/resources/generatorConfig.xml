@@ -30,5 +30,8 @@
         <!--要生成的表结构-->
         <table tableName="user" domainObjectName="User"></table>
         <table tableName="question" domainObjectName="Question"></table>
+        <table tableName="comment" domainObjectName="Comment"></table>
     </context>
 </generatorConfiguration>
+
+<!--        mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate-->
