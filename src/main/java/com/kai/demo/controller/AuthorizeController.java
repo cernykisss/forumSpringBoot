@@ -2,13 +2,11 @@ package com.kai.demo.controller;
 
 import com.kai.demo.dto.AccessTokenDTO;
 import com.kai.demo.dto.GithubUser;
-import com.kai.demo.mapper.UserMapper;
 import com.kai.demo.model.User;
 import com.kai.demo.provider.GithubProvider;
 import com.kai.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

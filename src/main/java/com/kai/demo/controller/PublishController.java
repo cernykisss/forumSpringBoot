@@ -1,14 +1,13 @@
 package com.kai.demo.controller;
 
-import com.kai.demo.mapper.QuestionMapper;
+import com.kai.demo.dto.QuestionDTO;
 import com.kai.demo.model.Question;
 import com.kai.demo.model.User;
+import com.kai.demo.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 public class PublishController {
 
     @Autowired
-    private QuestionMapper questionMapper;
+    private QuestionService questionService;
 
     @RequestMapping(value = "/publish", method = RequestMethod.GET)
     public String publish() {
@@ -24,9 +23,10 @@ public class PublishController {
     }
 
     @RequestMapping(value = "/publish", method = RequestMethod.POST)
-    public String doPublish(@RequestParam("title") String title,
-                            @RequestParam("description") String description,
-                            @RequestParam("tag") String tag,
+    public String doPublish(@RequestParam(value = "title", required = false) String title,
+                            @RequestParam(value = "description", required = false) String description,
+                            @RequestParam(value = "tag", required = false) String tag,
+                            @RequestParam(value = "id", required = false) Integer id,
                             HttpServletRequest request,
                             Model model) {
         //回显页面
@@ -56,8 +56,21 @@ public class PublishController {
         question.setCreator(user.getId());
         question.setGmtCreate(System.currentTimeMillis());
         question.setGmtModified(question.getGmtCreate());
-        questionMapper.createQuestion(question);
+        question.setId(id);
+        questionService.createOrUpdate(question);
         return "redirect:/index";
-        }
     }
+
+    @GetMapping("/publish/{id}")
+    public String edit(@PathVariable("id") Integer id,
+                       Model model) {
+        QuestionDTO question = questionService.getById(id);
+        model.addAttribute("title", question.getTitle());
+        model.addAttribute("description", question.getDescription());
+        model.addAttribute("tag", question.getTag());
+        model.addAttribute("id", question.getId());
+        return "publish";
+    }
+}
+
 

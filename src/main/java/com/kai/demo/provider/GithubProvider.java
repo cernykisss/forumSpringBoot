@@ -1,13 +1,11 @@
 package com.kai.demo.provider;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.kai.demo.dto.AccessTokenDTO;
 import com.kai.demo.dto.GithubUser;
 import okhttp3.*;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 
 @Component
 public class GithubProvider {
@@ -34,7 +32,6 @@ public class GithubProvider {
     public GithubUser getUser(String accessToken) {
         OkHttpClient client = new OkHttpClient();
         String url = "https://api.github.com/user?access_token=" + accessToken;
-        System.out.println(url);
         Request request = new Request.Builder()
                 .header("Authorization",  "token " + accessToken)
                 .url(url)
@@ -42,7 +39,6 @@ public class GithubProvider {
         try {
             Response response = client.newCall(request).execute();
             String string = response.body().string();
-            System.out.println(string);
             GithubUser githubUser = JSON.parseObject(string, GithubUser.class);
             return githubUser;
         } catch (Exception e) {
