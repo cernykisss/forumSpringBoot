@@ -28,5 +28,19 @@
     margin-top: 10px;
 }
 .comment {
-    margin-bottom: 10px;
+    border-bottom: 2px solid #eee;
+    margin-bottom: 20px;
+    margin-top: 20px;
+"
+}
+
+.subComment {
+    margin-top: 10px;
+    border: 2px solid #eee;
+    margin-bottom: 20px;
+
+}
+
+.menu .icon:hover {
+    color: #2b669a;
 }
