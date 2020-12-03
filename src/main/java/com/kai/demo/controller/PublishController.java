@@ -1,6 +1,8 @@
 package com.kai.demo.controller;
 
+import com.kai.demo.cache.TagCache;
 import com.kai.demo.dto.QuestionDTO;
+import com.kai.demo.dto.TagDTO;
 import com.kai.demo.model.Question;
 import com.kai.demo.model.User;
 import com.kai.demo.service.QuestionService;
@@ -8,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 public class PublishController {
@@ -18,7 +22,8 @@ public class PublishController {
     private QuestionService questionService;
 
     @RequestMapping(value = "/publish", method = RequestMethod.GET)
-    public String publish() {
+    public String publish(Model model) {
+        model.addAttribute("tags", TagCache.get());
         return "publish";
     }
 
@@ -29,10 +34,12 @@ public class PublishController {
                             @RequestParam(value = "id", required = false) Integer id,
                             HttpServletRequest request,
                             Model model) {
+
         //回显页面
         model.addAttribute("title", title);
         model.addAttribute("description", description);
         model.addAttribute("tag", tag);
+        model.addAttribute("tags", TagCache.get());
         if (title == null || title.equals("")) {
             model.addAttribute("error", "标题不为空");
             return "publish";
@@ -44,6 +51,11 @@ public class PublishController {
         if (tag == null || tag.equals("")) {
             model.addAttribute("error", "标签不能位空");
             return "publish";
+        }
+
+        String invalid = TagCache.filterInvalid(tag);
+        if (!StringUtils.isEmptyOrWhitespace(invalid)) {
+            model.addAttribute("error", "输入非法标签" + invalid);
         }
 
         User user = (User) request.getSession().getAttribute("user");
@@ -69,6 +81,7 @@ public class PublishController {
         model.addAttribute("description", question.getDescription());
         model.addAttribute("tag", question.getTag());
         model.addAttribute("id", question.getId());
+        model.addAttribute("tags", TagCache.get());
         return "publish";
     }
 }

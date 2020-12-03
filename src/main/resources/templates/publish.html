@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/forumV1.css"/>
     <script src="/js/jquery-3.4.1.min.js"></script>
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+    <script src="/js/community.js" type="application/javascript"></script>
 
 </head>
 <body style="background-color: aliceblue;">
@@ -32,6 +33,20 @@
                 <div class="form-group">
                     <label for="tag">添加标签</label>
                     <input type="text" class="form-control" th:value="${tag}" id="tag" name="tag" placeholder="输入标签">
+                    <div id="select-tag" class="publish-tag-tab">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" th:each="selectCategory : ${tags}">
+                                <a th:href="'#' + ${selectCategory.categoryName}" aria-controls="home" role="tab" data-toggle="tab" th:text="${selectCategory.categoryName}"></a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane"  th:id="${selectCategory.categoryName}" th:each="selectCategory : ${tags}" style="margin-top: 15px;">
+                                <span class="label-info label" th:each="tagInCategory : ${selectCategory.tags}" style="margin-right: 8px;">
+                                    <span class="glyphicon glyphicon-tags" aria-hidden="true" onclick="selectTag(this)" th:data-tag="${tagInCategory}" th:text="' ' + ${tagInCategory}"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="container-fluid main">
@@ -47,6 +62,7 @@
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" >
             <hr>
             <h3>问题发起指南</h3>
+            <span class="col-lg-12 col-md-12 col-sm-12 col-xs-12">请输入你的问题，尽量简洁</span>
         </div>
     </div>
 </div>
