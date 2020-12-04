@@ -1,7 +1,9 @@
 package com.kai.demo.controller;
 
 import com.kai.demo.dto.PaginationDTO;
+import com.kai.demo.model.Notification;
 import com.kai.demo.model.User;
+import com.kai.demo.service.NotificationService;
 import com.kai.demo.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,25 +20,29 @@ public class ProfileController {
     @Autowired
     private QuestionService questionService;
 
+    @Autowired
+    private NotificationService notificationService;
     @GetMapping("/profile/{action}")
     public String profile(@PathVariable(name = "action") String action,
                           Model model,
                           HttpServletRequest request,
                           @RequestParam(value = "page", defaultValue = "1") Integer page,
-                          @RequestParam(value = "size", defaultValue = "2") Integer size) {
+                          @RequestParam(value = "size", defaultValue = "5") Integer size) {
         User user = (User) request.getSession().getAttribute("user");
         if (user == null) return "redirect:/index";
 
         if ("questions".equals(action)) {
             model.addAttribute("section", "questions");
             model.addAttribute("sectionName", "我的提问");
+            PaginationDTO paginationDTO = questionService.list(user.getId(), page, size);
+            model.addAttribute("pagination", paginationDTO);
         } else if ("replies".equals(action)) {
+            PaginationDTO paginationDTO = notificationService.list(user.getId(), page, size);
             model.addAttribute("section", "replies");
             model.addAttribute("sectionName", "最新回复");
+            model.addAttribute("unreadCount", notificationService.unreadCount(user.getId()));
+            model.addAttribute("pagination", paginationDTO);
         }
-
-        PaginationDTO paginationDTO = questionService.list(user.getId(), page, size);
-        model.addAttribute("pagination", paginationDTO);
         return "profile";
     }
 }

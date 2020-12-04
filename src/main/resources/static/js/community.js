@@ -22,9 +22,10 @@ function comment2target(targetId, type, content) {
             if (response.code == 200) {
                 location.reload();
                 $("#comment-section").hide();
-            } else {
-                alert($(response.message()));
             }
+            // } else {
+            //     alert($(response.message()));
+            // }
         },
         dataType: "json"
     })

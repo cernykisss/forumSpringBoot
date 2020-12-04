@@ -27,7 +27,6 @@ public class CommentController {
     public Object post(@RequestBody CommentCreateDTO commentCreateDTO,
                        HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
-
         if (user == null) return ResultDTO.errorOf(CustomizeErrorCode.NO_LOGIN);
         if (commentCreateDTO == null || StringUtils.isEmptyOrWhitespace(commentCreateDTO.getContent()))
             return ResultDTO.errorOf(CustomizeErrorCode.CONTENT_IS_EMPTY);
@@ -39,7 +38,7 @@ public class CommentController {
         comment.setGmtModified(System.currentTimeMillis());
         comment.setCommentator(user.getId());
         comment.setLikeCount(0);
-        commentService.insert(comment);
+        commentService.insert(comment, user);
         return ResultDTO.okOf();
     }
 
