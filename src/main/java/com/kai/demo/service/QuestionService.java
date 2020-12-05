@@ -2,6 +2,7 @@ package com.kai.demo.service;
 
 import com.kai.demo.dto.PaginationDTO;
 import com.kai.demo.dto.QuestionDTO;
+import com.kai.demo.dto.QuestionQueryDTO;
 import com.kai.demo.exception.CustomizeErrorCode;
 import com.kai.demo.exception.CustomizeException;
 import com.kai.demo.mapper.QuestionExtMapper;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,8 +32,15 @@ public class QuestionService {
     @Autowired
     private QuestionExtMapper questionExtMapper;
 
-    public PaginationDTO listAllQuestions(Integer page, Integer size) {
-        Integer totalCount = (int) questionMapper.countByExample(new QuestionExample());
+    public PaginationDTO listAllQuestions(String search, Integer page, Integer size) {
+        if (!StringUtils.isEmptyOrWhitespace(search)) {
+            String[] keyWords = StringUtils.split(search, " ");
+            search = Arrays.stream(keyWords).collect(Collectors.joining("|"));
+        }
+        QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
+        questionQueryDTO.setSearch(search);
+        Integer totalCount = questionExtMapper.countBySearch(questionQueryDTO);
+
         PaginationDTO<QuestionDTO> paginationDTO = new PaginationDTO<>();
         paginationDTO.setPagination(totalCount, page, size);
 
@@ -42,8 +51,9 @@ public class QuestionService {
         Integer offset = (page - 1) * size;
         QuestionExample questionExample = new QuestionExample();
         questionExample.setOrderByClause("gmt_create desc");
-        List<Question> questions = questionMapper
-                .selectByExampleWithBLOBsWithRowbounds(questionExample, new RowBounds(offset, size));
+        questionQueryDTO.setPage(offset);
+        questionQueryDTO.setSize(size);
+        List<Question> questions = questionExtMapper.selectBySearch(questionQueryDTO);
         List<QuestionDTO> questionDTOS = new ArrayList<>();
 
         for (Question question : questions) {

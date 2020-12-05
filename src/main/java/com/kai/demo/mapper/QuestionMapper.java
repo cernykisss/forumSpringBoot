@@ -1,5 +1,6 @@
 package com.kai.demo.mapper;
 
+import com.kai.demo.dto.QuestionQueryDTO;
 import com.kai.demo.model.Question;
 import com.kai.demo.model.QuestionExample;
 import java.util.List;
@@ -134,4 +135,5 @@ public interface QuestionMapper {
      * @mbg.generated Fri Dec 04 23:20:28 CST 2020
      */
     int updateByPrimaryKey(Question record);
+
 }
