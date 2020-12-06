@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>论坛</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="/css/forumV1.css">
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+
+</head>
+<body style="background-color: aliceblue;">
+<div th:insert="navigation :: nav"></div>
+<hr color="blue">
+<div class="container-fluid main">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <hr>
+            <h2><span class="glyphicon glyphicon-th-list" aria-hidden="true" th:text="' ' + ${tag}"></span></h2>
+            <hr>
+            <div class="media" th:each="question : ${questions}">
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object avatar-img" th:src="${question.user.avatarUrl}">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">
+                        <a th:href="@{'/question/'+${question.id}}" th:text="${question.title}"></a>
+                    </h4>
+                    <span th:text=" ${question.description}"></span><br>
+                    <span class="text-desc">
+                        <span th:text="${question.commentCount}"></span>个回复
+                        <span th:text="${question.viewCount}"></span>次浏览
+                        创建于<span th:text="${#dates.format(question.getGmtCreate(), 'dd-MM-yyyy')}"></span>
+                    </span>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <hr>
+            <h3>热门话题</h3>
+            <ul>
+                <li th:each="tag : ${session.tags}">
+                    <a th:href="'/tag/' + ${tag}" th:text="${tag}"></a>
+                </li>
+
+            </ul>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

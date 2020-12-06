@@ -33,6 +33,7 @@ public class QuestionService {
     private QuestionExtMapper questionExtMapper;
 
     public PaginationDTO listAllQuestions(String search, Integer page, Integer size) {
+
         if (!StringUtils.isEmptyOrWhitespace(search)) {
             String[] keyWords = StringUtils.split(search, " ");
             search = Arrays.stream(keyWords).collect(Collectors.joining("|"));
@@ -147,5 +148,19 @@ public class QuestionService {
             return questionDTO;
         }).collect(Collectors.toList());
         return relatedQuestionDTOS;
+    }
+
+    public List<QuestionDTO> getByTag(String tag) {
+        Question question = new Question();
+        question.setTag(tag);
+        List<Question> questions = questionExtMapper.selectByTag(question);
+        List<QuestionDTO> questionDTOS = questions.stream().map(q -> {
+            QuestionDTO questionDTO = new QuestionDTO();
+            BeanUtils.copyProperties(q, questionDTO);
+            User user = userMapper.selectByPrimaryKey(q.getCreator());
+            questionDTO.setUser(user);
+            return questionDTO;
+        }).collect(Collectors.toList());
+        return questionDTOS;
     }
 }

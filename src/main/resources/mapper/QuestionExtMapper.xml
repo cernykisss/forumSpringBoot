@@ -38,6 +38,7 @@
             </if>
         </where>
     </select>
+
     <select id="selectBySearch" parameterType="com.kai.demo.dto.QuestionQueryDTO" resultType="com.kai.demo.model.Question">
         select * from question
         <where>
@@ -47,5 +48,14 @@
         </where>
         order by gmt_create desc
         limit #{page}, #{size}
+    </select>
+    <select id="selectByTag" parameterType="com.kai.demo.model.Question" resultType="com.kai.demo.model.Question">
+        select * from question
+        <where>
+            <if test="tag != null">
+                and tag like concat('%', #{tag}, '%')
+            </if>
+        </where>
+        order by gmt_create desc
     </select>
 </mapper>
